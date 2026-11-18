@@ -3,12 +3,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+
+void hints(int *h,int sec);
+int firstDigit(int n);
+
 int main(){
     srand(time(NULL));
     //variables
     char name[50]="",play[50]="",eo[50]="",hint[50]="";
-    int sec,guess,di,h,z;
-    int tries = 0;
+    int sec,guess,di,h,z,tries;
     
     printf("----Welcome to GUESSX----\n\n\n");
     //for entering name
@@ -18,6 +21,8 @@ int main(){
     printf("**TYPE 290108 FOR HINT**\n");
     do{
         while(1){
+            h=0;
+            tries=0;
             printf("Please select the difficulty:-\n1---V. EASY\n2---EASY\n3---MEDIUM\n4---HARD\n5---EXTREME\n:");
             scanf("%d",&di);
             //veasy
@@ -44,18 +49,8 @@ int main(){
                         printf("The match has ended.\nThe number was %d",sec);
                         break;
                     }
-                    //hintsystem
                     else if(guess==290108){
-                        h = rand()%2;
-                        if(h==1){
-                            (sec%2==0)?strcpy(eo,"even"):strcpy(eo,"odd");
-                            snprintf(hint, sizeof(hint),"The number is %s\n",eo);
-                        }
-                        else{
-                            z=sec/10;
-                            snprintf(hint, sizeof(hint),"The number starts with %g\n",floor(z));
-                        }
-                        printf("You are being provided a hint ;)\n%s",hint);
+                        hints(&h,sec);
                         tries--;
                     }
                     else if(guess==sec-1 || guess==sec+1){
@@ -100,16 +95,7 @@ int main(){
                         break;
                     }
                     else if(guess==290108){
-                    h = rand()%2;
-                    if(h==1){
-                        (sec%2==0)?strcpy(eo,"even"):strcpy(eo,"odd");
-                        snprintf(hint, sizeof(hint),"The number is %s\n",eo);
-                    }
-                    else{
-                        z=sec/10;
-                        snprintf(hint,sizeof(hint),"The number starts with %d\n",z);
-                    }
-                        printf("You are being provided a hint ;)\n%s",hint);
+                        hints(&h,sec);
                         tries--;
                     }
                     else if (guess==sec-1 || guess==sec+1){
@@ -154,16 +140,7 @@ int main(){
                         break;
                     }
                     else if(guess==290108){
-                    h = rand()%2;
-                    if(h==1){
-                        (sec%2==0)?strcpy(eo,"even"):strcpy(eo,"odd");
-                        snprintf(hint, sizeof(hint),"The number is %s\n",eo);
-                    }
-                    else{
-                        z=sec/100;
-                        snprintf(hint,sizeof(hint),"The number starts with %d\n",z);
-                    }
-                        printf("You are being provided a hint ;)\n%s",hint);
+                        hints(&h,sec);
                         tries--;
                     }
                     else if(guess==sec-1 || guess==sec+1){
@@ -208,16 +185,7 @@ int main(){
                         break;
                     }
                     else if(guess==290108){
-                        h = rand()%2;
-                        if(h==1){
-                            (sec%2==0)?strcpy(eo,"even"):strcpy(eo,"odd");
-                            snprintf(hint, sizeof(hint),"The number is %s\n",eo);
-                        }
-                        else{
-                            z=sec/100;
-                            snprintf(hint,sizeof(hint),"The number starts with %d\n",z);
-                        }
-                        printf("U r being provided a hint ;)\n%s",hint);
+                        hints(&h,sec);
                         tries--;
                     }
                     else if(guess==sec-1 || guess==sec+1){
@@ -265,16 +233,7 @@ int main(){
                         break;
                     }
                     else if(guess==290108){
-                    h = rand()%2;
-                    if(h==1){
-                        (sec%2==0)?strcpy(eo,"even"):strcpy(eo,"odd");
-                        snprintf(hint, sizeof(hint),"The number is %s\n",eo);
-                    }
-                    else{
-                        z=sec/1000;
-                        snprintf(hint,sizeof(hint),"The number starts with %d\n",z);
-                    }
-                        printf("You are being provided a hint ;)\n%s",hint);
+                        hints(&h,sec);
                         tries--;
                     }
                     else if(guess==sec-1||guess==sec+1){
@@ -311,4 +270,32 @@ int main(){
     while(strcmp(play,"again")==0);
     printf("The game has ended.");
     return 0;
+}
+
+void hints(int *p,int sec){
+    char eo[100];
+    if(*p<2){
+        printf("You are being provided a hint ;)\n");
+        switch(*p){
+            case 0:
+            (sec%2==0)?strcpy(eo,"EVEN"):strcpy(eo,"ODD");
+            printf("The Number is %s.\n",eo);break;
+            case 1:
+            printf("The number starts with %d.\n",firstDigit(sec));break;
+        }
+        (*p)++;
+    }
+    else{
+        printf("You ran out of hints\n");
+    }
+}
+
+int firstDigit(int n) {
+    n = abs(n);
+
+    while (n >= 10) {
+        n /= 10;
+    }
+
+    return n;
 }
