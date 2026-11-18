@@ -2,277 +2,87 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
 
-void hints(int *h,int sec);
+int game(int l,int t);
+void hints(int sec,int *p);
 int firstDigit(int n);
 
 int main(){
+
     srand(time(NULL));
-    //variables
-    char name[50]="",play[50]="",eo[50]="",hint[50]="";
-    int sec,guess,di,h,z,tries;
-    
-    printf("----Welcome to GUESSX----\n\n\n");
+
+    char name[100],play_again[10];
+    int h,tries,diff,lim,swit,tar;
+
     printf("Enter your name: ");
     fgets(name,sizeof(name),stdin);
     name[strlen(name)-1]='\0';
-    printf("**TYPE 290108 FOR HINT**\n");
+
     do{
-        while(1){
-            h=0;
-            tries=0;
-            printf("Please select the difficulty:-\n1---V. EASY\n2---EASY\n3---MEDIUM\n4---HARD\n5---EXTREME\n:");
-            scanf("%d",&di);
-            //veasy
-            if(di == 1){
-                sec = rand() %30 + 1;
-                while(1){
-                    printf("Guess the number from 1 to 30: ");
-                    scanf("%d",&guess);
-                    tries++;
-                    //completion msg
-                    if(guess==sec){
-                        if(tries<4){
-                            printf("Crazy %s!! Got it in only %d tries",name,tries);
-                        }
-                        else if(tries<10){
-                            printf("Good job %s!!You got it in %d tries",name,tries);
-                        }
-                        else{
-                            printf("You got it in %d tries, how did you make it this far??",tries);
-                        }
-                        break;
-                    }
-                    else if(guess==300108){
-                        printf("The match has ended.\nThe number was %d",sec);
-                        break;
-                    }
-                    else if(guess==290108){
-                        hints(&h,sec);
-                        tries--;
-                    }
-                    else if(guess==sec-1 || guess==sec+1){
-                        printf("The number is right next to this\n");
-                    }
-                    else if(guess>sec-6 && guess<sec){
-                        printf("This number is little low:/\n");
-                    }
-                    else if(guess<sec+6 && guess>sec){
-                        printf("This number is little high:/\n");
-                    }
-                    else if(guess>sec){
-                        printf("This number is higher :(\n");
-                    }
-                    else{
-                        printf("This number is lower :(\n");
-                    }
-                }
-                break;
+        // h=0;
+        tries=0;
+        printf("Please select the difficulty:-\n1---V. EASY\n2---EASY\n3---MEDIUM\n4---HARD\n5---EXTREME\n:");
+        do{
+            swit=0;
+            scanf("%d",&diff);
+            getchar();
+            switch(diff){
+                case 1:lim=30;break;
+                case 2:lim=100;break;
+                case 3:lim=500;break;
+                case 4:lim=1000;break;
+                case 5:lim=10000;break;
+                case 10:printf("\n\nWITH PERFECT PLAY AVERAGE TRIES FOR:\n1.V.EASY=4.2\n2.EASY=4.8\n3.MEDIUM=6.1\n4.HARD=8\n5.EXTREME=14.5\n\n");break;
+                default:printf("Please select a DIFFICULTY from 1 to 5\n");swit=1;
             }
-            //easy
-            else if(di == 2){
-                sec = rand() %100 + 1;
-                while(1){
-                    printf("Guess the number from 1 to 100: ");
-                    scanf("%d",&guess);
-                    tries++;
-                    if(guess==sec){
-                        if(tries<4){
-                            printf("Masterfully played, got it in only %d tries",tries);
-                        }
-                        else if(tries<8){
-                            printf("Good job %s!!You got it in %d tries",name,tries);
-                        }
-                        else{
-                            printf("The number has been guessed. FINALLY ");
-                        }
-                        break;
-                    }
-                    else if(guess==300108){
-                        printf("The match has ended.\nThe number was %d",sec);
-                        break;
-                    }
-                    else if(guess==290108){
-                        hints(&h,sec);
-                        tries--;
-                    }
-                    else if (guess==sec-1 || guess==sec+1){
-                        printf("The number is right next to this\n");
-                    }
-                    else if(guess>sec-10 && guess<sec){
-                        printf("This number is little low:/\n");
-                    }
-                    else if(guess<sec+10 && guess>sec){
-                        printf("This number is little high:/\n");
-                    }
-                    else if(guess>sec){
-                        printf("This number is higher :(\n");
-                    }
-                    else{
-                        printf("This number is lower :(\n");
-                    }
-                }
-                break;
-            }
-            //medium
-            else if(di == 3){
-                sec = rand() %500 + 1;
-                while(1){
-                    printf("Guess the number from 1 to 500: ");
-                    scanf("%d",&guess);
-                    tries++;
-                    if(guess==sec){
-                        if(tries<6){
-                            printf("Should buy a lottery. Got it in only %d tries",tries);
-                        }
-                        else if(tries<11){
-                            printf("Good job %s!!You got it in %d tries",name,tries);
-                        }
-                        else{
-                            printf("Got it in %d tries, Very bad",tries);
-                        }
-                        break;
-                    }
-                    else if(guess==300108){
-                        printf("The match has ended.\nThe number was %d",sec);
-                        break;
-                    }
-                    else if(guess==290108){
-                        hints(&h,sec);
-                        tries--;
-                    }
-                    else if(guess==sec-1 || guess==sec+1){
-                        printf("The number is right next to this\n");
-                    }
-                    else if(guess>sec-15 && guess<sec){
-                        printf("This number is little low:/\n");
-                    }
-                    else if(guess<sec+15 && guess>sec){
-                        printf("This number is little high:/\n");
-                    }
-                    else if(guess>sec){
-                        printf("This number is higher :(\n");
-                    }
-                    else{
-                        printf("This number is lower :(\n");
-                    }
-                }
-                break;
-            }
-            //hard
-            else if(di == 4){
-                sec = rand() %1000 + 1;
-                while(1){
-                    printf("Guess the number from 1 to 1000: ");
-                    scanf("%d",&guess);
-                    tries++;
-                    if(guess==sec){
-                        if(tries<7){
-                            printf("Amazing %s, you got it in only %d tries",name,tries);
-                        }
-                        else if(tries<11){
-                            printf("Good job %s!!You got it in %d tries",name,tries);
-                        }
-                        else{
-                            printf("You got it but i mean how can you be this bad");
-                        }
-                        break;
-                    }
-                    else if(guess==300108){
-                        printf("The match has ended.\nThe number was %d",sec);
-                        break;
-                    }
-                    else if(guess==290108){
-                        hints(&h,sec);
-                        tries--;
-                    }
-                    else if(guess==sec-1 || guess==sec+1){
-                        printf("The number is right next to this\n");
-                    }
-                    else if(guess>sec-20 && guess<sec){
-                        printf("This number is liittle low:/\n");
-                    }
-                    else if(guess<sec+20 && guess>sec){
-                        printf("This number is little high:/\n");
-                    }
-                    else if(guess>sec){
-                        printf("This number is higher :(\n");
-                    }
-                    else{
-                        printf("This number is lower :(\n");
-                    }
-                }
-                break;
-            }
-            //extreme
-            else if(di == 5){
-                sec = rand() % 100000 + 1;
-                while(1){
-                    printf("Guess the number from 1 to 100000: ");
-                    scanf("%d",&guess);
-                    tries++;
-                    if(guess==sec){
-                        if(tries<13){
-                            printf("Amazing!!Wonderfully played %s,got it in only %d tries.",name,tries);
-                        }
-                        else if(tries<17){
-                            printf("Good job %s,got it in %d tries",name,tries);
-                        }
-                        else if(tries<21){
-                            printf("Can definitly do better.Took %d tries **tsk tsk tsk**",tries);
-                        }
-                        else{
-                            printf("Finally got it.quit life atp.");
-                        }
-                        break;
-                    }
-                    else if(guess==300108){
-                        printf("The match has ended.\nThe number was %d",sec);
-                        break;
-                    }
-                    else if(guess==290108){
-                        hints(&h,sec);
-                        tries--;
-                    }
-                    else if(guess==sec-1||guess==sec+1){
-                        printf("The number is right next to this\n");
-                    }
-                    else if(guess>sec-100 && guess<sec){
-                        printf("This number is little low:/\n");
-                    }
-                    else if(guess<sec+100 && guess>sec){
-                        printf("This number is little high:/\n");
-                    }
-                    else if(guess>sec){
-                        printf("This number is higher :(\n");
-                    }
-                    else{
-                        printf("This number is lower :(\n");
-                    }
-                }
-                break;
-            }
-            else if(di==10){
-                printf("\n\nWITH PERFECT PLAY AVERAGE TRIES FOR:\n1.V.EASY=4.2\n2.EASY=4.8\n3.MEDIUM=6.1\n4.HARD=8\n5.EXTREME=14.5\n\n");
-            }
-            else{
-            printf("Select from 1 to 5 dummy!  >:(\n");
-            }
-        }
-        printf("\n\nEnter 'again' to play again: \n");
-        int error;
-        while((error = getchar()) != '\n' && error !=EOF);
-        fgets(play,sizeof(play),stdin);
-        play[strlen(play)-1]='\0';
-    }
-    while(strcmp(play,"again")==0);
-    printf("The game has ended.");
-    return 0;
+        }while(swit);
+        tar = rand() % lim + 1;
+        // printf("%d\n",lim);
+        printf("%d\n",tar);
+        if(tries==0)
+        printf("Congrats %s got it in %d TRIES!!\n", name, game(lim,tar));
+        printf("\nTYPE 'again' TO PLAY AGAIN");
+        fgets(play_again,sizeof(play_again),stdin);
+        play_again[strlen(play_again)-1]='\0';
+    }while(strcmp(play_again,"again")==0);
 }
 
-void hints(int *p,int sec){
+int game(int l,int t){
+
+    int guess,tries=0,hint_count=0;
+
+    // printf("%d\n",t);
+    printf("Guess the number between 1 and %d:\n",l);
+    while(guess!=t){
+        tries++;
+        scanf("%d",&guess);
+        getchar();
+        if(guess==290108){
+            hints(t,&hint_count);
+            tries--;
+        }
+
+        else if(guess==t-1 || guess==t+1)
+        printf("The number is right next to this\n");
+        else if(guess>t-8 && guess<t)
+        printf("This number is little low:/\n");
+        else if(guess<t-8 && guess>t)
+        printf("This number is little high:/\n");
+        else if(guess>t-15 && guess<t)
+        printf("You're getting warmer, go lower!\n");
+        else if(guess<t-15 && guess>t)
+        printf("You're getting warmer, go higher!\n");
+        else if(guess>t)
+        printf("Aim lower!\n");
+        else if(guess<t)
+        printf("Aim higher!\n");
+    }
+    return tries;
+}
+
+void hints(int sec,int *p){
     char eo[100];
+
     if(*p<2){
         printf("You are being provided a hint ;)\n");
         switch(*p){
@@ -289,7 +99,7 @@ void hints(int *p,int sec){
     }
 }
 
-int firstDigit(int n) {
+int firstDigit(int n){
     n = abs(n);
 
     while (n >= 10) {
