@@ -14,7 +14,6 @@ int main(){
     int sec,guess,di,h,z,tries;
     
     printf("----Welcome to GUESSX----\n\n\n");
-    //for entering name
     printf("Enter your name: ");
     fgets(name,sizeof(name),stdin);
     name[strlen(name)-1]='\0';
@@ -208,7 +207,7 @@ int main(){
             }
             //extreme
             else if(di == 5){
-                sec = rand() %100000 + 1;
+                sec = rand() % 100000 + 1;
                 while(1){
                     printf("Guess the number from 1 to 100000: ");
                     scanf("%d",&guess);
